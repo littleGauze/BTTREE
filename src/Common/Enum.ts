@@ -8,6 +8,6 @@ export enum NodeStatus {
 export enum AbortType {
   None = 'None',
   LowerPriority = 'LowerPriority',
-  SelfAbort = 'SelfAbort',
+  Self = 'Self',
   Both = 'Both',
 }

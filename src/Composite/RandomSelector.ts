@@ -46,6 +46,6 @@ export class RandomSelector extends BTComposite {
       default:
         break
     }
-    return this.status
+    return status
   }
 }

@@ -29,7 +29,7 @@ export class Selector extends BTComposite {
       default:
         break
     }
-    return this.status
+    return status
   }
 
   // onUpdate(): NodeStatus {

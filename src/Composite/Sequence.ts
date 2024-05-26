@@ -29,7 +29,7 @@ export class Sequence extends BTComposite {
       default:
         break
     }
-    return this.status
+    return status
   }
 
   // onUpdate(): NodeStatus {
