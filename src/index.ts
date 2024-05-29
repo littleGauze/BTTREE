@@ -12,6 +12,6 @@ setInterval(() => {
   behaviorManager.tick()
 }, 1000)
 
-setTimeout(() => {
-  Blackboard.Instance.mp = 100
-}, 4000)
+// setTimeout(() => {
+//   Blackboard.Instance.mp = 100
+// }, 4000)

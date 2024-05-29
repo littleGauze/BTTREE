@@ -14,6 +14,7 @@ import { InvertDecorator } from "./Decorators/InvertDecorator";
 import { LogAction } from "./Bizz/Actions/LogAction";
 import { AbortType } from "./Common/Enum";
 import { Parallel } from "./Composite/Parallel";
+import { RepeatDecorator } from "./Decorators/RepeatDecorator";
 
 export class MyTree extends BTTree {
   constructor() {
@@ -49,16 +50,20 @@ export class MyTree extends BTTree {
     // ]);
 
     this.root = new Selector([
-      new Parallel([
-        new Selector([
-          new HasMp(),
-          new WalkAction(2000),
-        ], AbortType.LowerPriority),
-        new Selector([
-          new HasHp(),
-          new SleepAction(8000),
-        ], AbortType.Self),
-      ])
+      new RepeatDecorator([
+        new HasMp(),
+      ], 3, true)
+      // new Parallel([
+      //   new Selector([
+      //     new HasMp(),
+      //     new InvertDecorator([new WalkAction(1000)]),
+      //   ], AbortType.LowerPriority),
+      //   new Selector([
+      //     new HasHp(),
+      //     new SleepAction(1000),
+      //   ], AbortType.Self),
+      // ], AbortType.LowerPriority),
+      // new WalkAction(8000),
     ])
   }
 }

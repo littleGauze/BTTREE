@@ -176,7 +176,7 @@ export default class BehaviorManager {
     }
 
     if (node instanceof BTComposite) {
-      if (node.abortType === AbortType.Self || node.abortType === AbortType.None || !stack.length) {
+      if (node.abortType === AbortType.Self || node.abortType === AbortType.None || (node.abortType !== AbortType.LowerPriority && !stack.length)) {
         this.removeChildConditionReevaluate(index)
       } else if (node.abortType === AbortType.LowerPriority || node.abortType === AbortType.Both) {
         for (let i = 0; i < this.childrenIndex[index].length; i++) {
