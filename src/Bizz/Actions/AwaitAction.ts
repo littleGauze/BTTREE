@@ -17,15 +17,14 @@ export class AwaitAction extends BTAction {
   }
 
   onStart(): void {
+    super.onStart()
     this.timer = game.totalTime
   }
 
   onUpdate(): NodeStatus {
     if (game.totalTime - this.timer < this.duration) {
-      console.log("AwaitAction running")
       return NodeStatus.Running
     }
-    console.log("AwaitAction success")
     return NodeStatus.Success
   }
 }

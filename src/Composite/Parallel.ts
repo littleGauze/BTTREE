@@ -1,40 +1,50 @@
 import { BTComposite } from "@/Base/BTComposite"
 import { NodeStatus } from "@/Common/Enum"
 
-export class Sequence extends BTComposite {
+export class Parallel extends BTComposite {
+
+  executionStatus: Array<NodeStatus> = []
+
+  get status() {
+    let isComplete = true
+    for (const status of this.executionStatus) {
+      if (status === NodeStatus.Failed) return NodeStatus.Failed
+      else if (status === NodeStatus.Running) {
+        isComplete = false
+      }
+    }
+    return isComplete ? NodeStatus.Success : NodeStatus.Running
+  }
+
+  set status(value: NodeStatus) {}
+
   onStart(): void {
     super.onStart()
     this.index = 0
+    this.executionStatus = new Array(this.children.length).fill(NodeStatus.Inactive)
   }
 
   canExecute(): boolean {
     return this.index < this.children.length && this.status !== NodeStatus.Failed
   }
 
-  onChildExecuted(status: NodeStatus): NodeStatus {
-    switch (status) {
-      case NodeStatus.Failed:
-        this.status = NodeStatus.Failed
-        break
-      case NodeStatus.Success:
-        this.index += 1
-        if (this.index >= this.children.length) {
-          this.status = NodeStatus.Success
-        } else {
-          this.status = NodeStatus.Running
-        }
-        break
-      case NodeStatus.Running:
-        this.status = NodeStatus.Running
-      default:
-        break
-    }
+  get canRunParallel() {
+    return true
+  }
+
+  onChildStarted() {
+    this.executionStatus[this.index] = NodeStatus.Running
+    this.index++
+  }
+
+  onChildExecuted(status: NodeStatus, index: number): NodeStatus {
+    this.executionStatus[index] = status
     return status
   }
 
   onConditionAbort(index: number): void {
-      this.index = index
-      this.status = NodeStatus.Inactive
+      this.index = 0
+      this.executionStatus.fill(NodeStatus.Inactive)
   }
 
   // onUpdate(): NodeStatus {

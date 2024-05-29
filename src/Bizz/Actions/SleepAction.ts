@@ -1,9 +1,10 @@
 import { BTAction } from "@/Base/BTAction"
 import { NodeStatus } from "@/Common/Enum"
+import { AwaitAction } from "./AwaitAction"
 
-export class SleepAction extends BTAction {
+export class SleepAction extends AwaitAction {
   onUpdate(): NodeStatus {
     console.log('Sleep action')
-    return NodeStatus.Success
+    return super.onUpdate()
   }
 }

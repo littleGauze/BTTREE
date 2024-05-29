@@ -48,4 +48,9 @@ export class RandomSequence extends BTComposite {
     }
     return status
   }
+
+  onConditionAbort(index: number): void {
+    this.status = NodeStatus.Inactive
+    this.shuffle()
+  }
 }

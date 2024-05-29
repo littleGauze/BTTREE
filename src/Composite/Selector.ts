@@ -32,6 +32,11 @@ export class Selector extends BTComposite {
     return status
   }
 
+  onConditionAbort(index: number): void {
+    this.index = index
+    this.status = NodeStatus.Inactive
+  }
+
   // onUpdate(): NodeStatus {
   //   if (this.status === NodeStatus.Success) return NodeStatus.Success
   //   if (this.index >= this.children.length) {

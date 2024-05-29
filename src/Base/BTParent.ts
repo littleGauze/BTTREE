@@ -19,6 +19,15 @@ export abstract class BTParent extends BTNode {
     this._index = value
   }
 
+  get canRunParallel() {
+    return false
+  }
+
+
   abstract canExecute(): boolean
-  abstract onChildExecuted(status: NodeStatus): NodeStatus
+  abstract onChildExecuted(status: NodeStatus, index?: number): NodeStatus
+
+  onConditionAbort(index: number) {}
+
+  onChildStarted() {}
 }

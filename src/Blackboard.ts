@@ -7,8 +7,8 @@ export interface Position {
 
 export class Blackboard extends Singleton {
   _pos: Position = { x: 0, y: 0 }
-  _hp: number = 100
-  _mp: number = 100
+  _hp: number = 0
+  _mp: number = 0
 
   static get Instance() {
     return this.GetInstance<Blackboard>()

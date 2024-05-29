@@ -12,32 +12,53 @@ import { SleepAction } from "./Bizz/Actions/SleepAction";
 import { HasHp } from "./Bizz/Conditions/HasHp";
 import { InvertDecorator } from "./Decorators/InvertDecorator";
 import { LogAction } from "./Bizz/Actions/LogAction";
+import { AbortType } from "./Common/Enum";
+import { Parallel } from "./Composite/Parallel";
 
 export class MyTree extends BTTree {
   constructor() {
     super();
 
-    this.root = new Sequence([
-      new InvertDecorator([new InvertDecorator([new LogAction("haha")])]),
-      new LogAction("hehe"),
+    // this.root = new Sequence([
+    //   // new InvertDecorator([new InvertDecorator([new LogAction("haha")])]),
+    //   // new LogAction("hehe"),
 
-      // new Selector([
-      //   new Sequence([
-      //     new HasMp(),
-      //     new Sequence([
-      //       new AwaitAction(2000),
-      //       new SkillAction()
-      //     ])
-      //   ]),
-      //   new Sequence([
-      //     new HasHp(),
-      //     new AttackAction()
-      //   ]),
-      //   new RandomSequence([
-      //     new WalkAction(),
-      //     new SleepAction()
-      //   ])
-      // ]),
-    ]);
+    //   new Selector([
+    //     new Sequence([
+    //       new HasMp(),
+    //       new Sequence([
+    //         new AwaitAction(4000),
+    //         new SkillAction()
+    //       ])
+    //     ], AbortType.Self),
+    //     new Sequence([
+    //       new HasHp(),
+    //       new AttackAction()
+    //     ]),
+    //     new RandomSequence([
+    //       new Sequence([
+    //         new AwaitAction(5000),
+    //         new SleepAction()
+    //       ]),
+    //       new Sequence([
+    //         new AwaitAction(5000),
+    //         new WalkAction(),
+    //       ])
+    //     ])
+    //   ]),
+    // ]);
+
+    this.root = new Selector([
+      new Parallel([
+        new Selector([
+          new HasMp(),
+          new WalkAction(2000),
+        ], AbortType.LowerPriority),
+        new Selector([
+          new HasHp(),
+          new SleepAction(8000),
+        ], AbortType.Self),
+      ])
+    ])
   }
 }
